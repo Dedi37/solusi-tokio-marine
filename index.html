@@ -21,6 +21,7 @@
     --white:#fdfcf9;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
+  button{font:inherit; cursor:pointer; background:none; border:none; color:inherit; -webkit-appearance:none; appearance:none;}
   html{scroll-behavior:smooth;}
   body{
     background:var(--paper);
@@ -332,6 +333,62 @@
   .wa-float svg{width:28px;height:28px; fill:#fff;}
 
   ::selection{background:var(--gold-light); color:var(--navy-deep);}
+
+  /* ===== LEAD MODAL ===== */
+  .lead-overlay{
+    position:fixed; inset:0; z-index:100;
+    background:rgba(6,15,27,0.72); backdrop-filter:blur(3px);
+    display:none; align-items:center; justify-content:center; padding:20px;
+  }
+  .lead-overlay.is-open{display:flex;}
+  .lead-modal{
+    background:var(--white); width:100%; max-width:420px;
+    border-radius:4px; overflow:hidden;
+    box-shadow:0 30px 70px rgba(0,0,0,0.4);
+    animation:leadPop .22s ease;
+  }
+  @keyframes leadPop{ from{opacity:0; transform:translateY(10px) scale(0.98);} to{opacity:1; transform:translateY(0) scale(1);} }
+  .lead-modal-head{
+    background:var(--navy-deep); color:var(--white); padding:24px 28px; position:relative;
+  }
+  .lead-modal-head h3{color:var(--white); font-size:20px; margin-bottom:6px;}
+  .lead-modal-head p{color:#c4d0dd; font-size:13.5px;}
+  .lead-close{
+    position:absolute; top:16px; right:16px; width:28px; height:28px;
+    display:flex; align-items:center; justify-content:center;
+    color:#c4d0dd; border-radius:50%; transition:background .2s, color .2s;
+  }
+  .lead-close:hover{background:rgba(255,255,255,0.12); color:var(--white);}
+  .lead-close svg{width:16px;height:16px;}
+  .lead-modal-body{padding:26px 28px 28px;}
+  .lead-field{margin-bottom:16px;}
+  .lead-field label{
+    display:block; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.05em;
+    text-transform:uppercase; color:var(--ink-soft); margin-bottom:7px;
+  }
+  .lead-field input{
+    width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:2px;
+    font-family:'IBM Plex Sans',sans-serif; font-size:14.5px; color:var(--ink);
+    background:var(--paper); transition:border-color .2s;
+  }
+  .lead-field input:focus{outline:none; border-color:var(--gold);}
+  .lead-field .lead-error{display:none; color:#b3392f; font-size:12px; margin-top:6px;}
+  .lead-field.has-error input{border-color:#b3392f;}
+  .lead-field.has-error .lead-error{display:block;}
+  .lead-submit{
+    width:100%; background:var(--gold); color:#1a1204; padding:14px; border-radius:2px;
+    font-weight:700; font-size:14.5px; display:flex; align-items:center; justify-content:center; gap:8px;
+    transition:background .2s;
+  }
+  .lead-submit:hover{background:var(--gold-light);}
+  .lead-submit:disabled{opacity:0.6; cursor:not-allowed;}
+  .lead-privacy{font-size:11.5px; color:var(--ink-soft); margin-top:14px; line-height:1.6; text-align:center;}
+  .lead-status{
+    display:none; align-items:center; gap:8px; font-size:13px; color:var(--navy);
+    background:var(--paper-warm); border:1px solid var(--line); padding:10px 12px; border-radius:2px; margin-bottom:16px;
+  }
+  .lead-status.is-visible{display:flex;}
+  .lead-status svg{width:15px;height:15px; stroke:var(--gold); flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -349,7 +406,7 @@
         <li><a href="#kontak">Kontak</a></li>
       </ul>
     </nav>
-    <a class="nav-cta" href="https://wa.me/6285649660705?text=Halo%20Pak%20Mujaddedi%2C%20saya%20ingin%20konsultasi%20proteksi%20asuransi%20Tokio%20Marine." target="_blank" rel="noopener">Konsultasi via WA</a>
+    <button type="button" class="nav-cta" onclick="openLeadModal()">Konsultasi via WA</button>
   </div>
 </header>
 
@@ -360,9 +417,9 @@
       <h1>Proteksi yang tepat, untuk risiko yang <em>sudah dipetakan</em>.</h1>
       <p class="lede">Dari rumah, kendaraan, dan apartemen, hingga aset usaha seperti properti, isi kantor, dan pengangkutan barang — saya bantu Anda memilih dan menyusun proteksi Tokio Marine Indonesia yang sesuai kebutuhan, bukan sekadar ikut paket.</p>
       <div class="hero-ctas">
-        <a class="btn-primary" href="https://wa.me/6285649660705?text=Halo%20Pak%20Mujaddedi%2C%20saya%20ingin%20konsultasi%20proteksi%20asuransi%20Tokio%20Marine." target="_blank" rel="noopener">
+        <button type="button" class="btn-primary" onclick="openLeadModal()">
           Mulai Konsultasi Gratis →
-        </a>
+        </button>
         <a class="btn-ghost" href="#produk">Lihat Semua Produk</a>
       </div>
       <div class="hero-stats">
@@ -650,7 +707,7 @@
   <div class="eyebrow">Langkah Pertama</div>
   <h2>Ceritakan apa yang ingin Anda lindungi — saya bantu carikan produknya.</h2>
   <p>Konsultasi awal tidak dipungut biaya. Cukup kirim pesan singkat lewat WhatsApp, dan diskusi bisa dimulai hari ini juga.</p>
-  <a class="btn-primary" href="https://wa.me/6285649660705?text=Halo%20Pak%20Mujaddedi%2C%20saya%20ingin%20konsultasi%20proteksi%20asuransi%20Tokio%20Marine." target="_blank" rel="noopener">Chat via WhatsApp →</a>
+  <button type="button" class="btn-primary" onclick="openLeadModal()">Chat via WhatsApp →</button>
 </section>
 
 <section class="consultant" id="kontak">
@@ -678,10 +735,10 @@
           </div>
           <div class="contact-row">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 5c0 9 7 16 16 16l3-4-6-3-2 2c-2-1-4-3-5-5l2-2-3-6-4 0z"/></svg>
-            <a href="https://wa.me/6285649660705?text=Halo%20Pak%20Mujaddedi%2C%20saya%20ingin%20konsultasi%20proteksi%20asuransi%20Tokio%20Marine." target="_blank" rel="noopener">0856-4966-0705 (WhatsApp)</a>
+            <a href="javascript:void(0)" onclick="openLeadModal()">0856-4966-0705 (WhatsApp)</a>
           </div>
         </div>
-        <a class="btn-primary" href="https://wa.me/6285649660705?text=Halo%20Pak%20Mujaddedi%2C%20saya%20ingin%20konsultasi%20proteksi%20asuransi%20Tokio%20Marine." target="_blank" rel="noopener">Hubungi Sekarang →</a>
+        <button type="button" class="btn-primary" onclick="openLeadModal()">Hubungi Sekarang →</button>
       </div>
     </div>
   </div>
@@ -783,9 +840,159 @@
   </div>
 </footer>
 
-<a class="wa-float" href="https://wa.me/6285649660705?text=Halo%20Pak%20Mujaddedi%2C%20saya%20ingin%20konsultasi%20proteksi%20asuransi%20Tokio%20Marine." target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+<button type="button" class="wa-float" onclick="openLeadModal()" aria-label="Chat WhatsApp">
   <svg viewBox="0 0 32 32"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.386.696 4.61 1.897 6.481L4 29l7.72-1.851A11.94 11.94 0 0016.001 27C22.628 27 28 21.627 28 15S22.628 3 16.001 3zm6.995 16.99c-.294.826-1.457 1.51-2.386 1.71-.634.135-1.462.244-4.246-.911-3.556-1.473-5.846-5.084-6.024-5.32-.176-.235-1.443-1.918-1.443-3.658 0-1.74.91-2.596 1.234-2.95.323-.353.706-.44.941-.44.235 0 .47.002.675.012.216.01.507-.082.793.605.294.706 1 2.446 1.088 2.624.088.176.147.383.03.617-.117.235-.176.383-.352.588-.176.206-.37.46-.529.617-.176.176-.36.367-.155.72.206.353.916 1.51 1.966 2.446 1.35 1.204 2.489 1.577 2.842 1.753.353.176.559.147.764-.088.206-.235.882-1.029 1.117-1.382.235-.353.47-.294.793-.176.323.117 2.058.97 2.41 1.146.353.176.588.264.675.412.088.147.088.853-.206 1.68z"/></svg>
-</a>
+</button>
+
+<div class="lead-overlay" id="leadOverlay">
+  <div class="lead-modal" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
+    <div class="lead-modal-head">
+      <button type="button" class="lead-close" onclick="closeLeadModal()" aria-label="Tutup">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <h3 id="leadModalTitle">Sebelum ke WhatsApp</h3>
+      <p>Isi nama dan email Anda supaya saya bisa menyiapkan info yang relevan sebelum kita mulai diskusi.</p>
+    </div>
+    <div class="lead-modal-body">
+      <div class="lead-status" id="leadStatus">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>
+        <span>Menyimpan data Anda...</span>
+      </div>
+      <form id="leadForm" onsubmit="handleLeadSubmit(event)" novalidate>
+        <div class="lead-field" id="fieldName">
+          <label for="leadName">Nama Lengkap</label>
+          <input type="text" id="leadName" name="name" autocomplete="name" placeholder="Nama Anda">
+          <div class="lead-error">Mohon isi nama Anda.</div>
+        </div>
+        <div class="lead-field" id="fieldEmail">
+          <label for="leadEmail">Email</label>
+          <input type="email" id="leadEmail" name="email" autocomplete="email" placeholder="nama@email.com">
+          <div class="lead-error">Mohon isi email yang valid.</div>
+        </div>
+        <button type="submit" class="lead-submit" id="leadSubmitBtn">Lanjutkan ke WhatsApp →</button>
+        <p class="lead-privacy">Data Anda hanya digunakan untuk keperluan konsultasi asuransi dan tidak dibagikan ke pihak lain.</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ====================================================================
+     KONFIGURASI LEAD CAPTURE (Brevo + WhatsApp)
+     ====================================================================
+     1) BREVO_FORM_ACTION
+        Buka akun Brevo Anda -> Contacts -> Forms -> Create a form.
+        Tambahkan 2 field: Email (bawaan) dan Nama (buat attribute baru,
+        misal atribut teks bernama NAMA atau gunakan FIRSTNAME/LASTNAME).
+        Setelah form dibuat, buka tab "Share" / "Embed on my page", lalu
+        salin URL yang ada pada atribut action="...". Bentuknya seperti:
+        https://xxxxxxxx.sibforms.com/serve/MUIXXXXXXXXXXXXXXXXXXXXXXXXXX
+        Tempelkan URL tersebut ke BREVO_FORM_ACTION di bawah ini.
+
+     2) BREVO_EMAIL_FIELD_NAME / BREVO_NAME_FIELD_NAME
+        Ini adalah atribut "name" dari input email & nama pada kode embed
+        yang diberikan Brevo. Biasanya email bernama "EMAIL". Untuk nama,
+        cek nama field persis dari embed code Brevo Anda (misal "NAME",
+        "FIRSTNAME", atau nama atribut kontak custom Anda) lalu sesuaikan
+        di bawah ini.
+
+     3) Pastikan di pengaturan List Brevo Anda, opsi "Double opt-in"
+        dimatikan jika Anda ingin kontak langsung tersimpan tanpa
+        menunggu klik konfirmasi di email. Jika double opt-in aktif,
+        kontak baru akan berstatus "unconfirmed" sampai mereka klik
+        email konfirmasi dari Brevo.
+
+     4) Form ini akan tetap meneruskan pengunjung ke WhatsApp walau
+        pengiriman ke Brevo gagal (misalnya karena offline), supaya
+        calon konsumen tidak terhambat hanya karena isu teknis.
+     ==================================================================== */
+
+  const BREVO_FORM_ACTION = "https://d07a7263.sibforms.com/serve/MUIFALJMHsgKVRDHGoEWIEj8P2Oal-FArA49_QrJ919Gl1hmz3DRNQ12nG6Jwnz2Z34dPG_CjMH2NM9hI7KU5CCqQ6enJTl8Qh5MvDpCr1vEeiNzA61xhPtJSrXY9lpP7-dcobK70eNSWp_TPxVby5Nugzzj3My-GoEoJWvqtqv4XqRoYltk1tHghhYY6MMyyhzg9E64VIcDGhBAew==";
+  const BREVO_EMAIL_FIELD_NAME = "EMAIL";
+  const BREVO_NAME_FIELD_NAME = "NAMA";
+
+  const WA_NUMBER = "6285649660705";
+  const WA_MESSAGE_TEMPLATE = "Halo Pak Mujaddedi, saya {NAMA}, ingin konsultasi proteksi asuransi Tokio Marine.";
+
+  const leadOverlay = document.getElementById('leadOverlay');
+  const leadForm = document.getElementById('leadForm');
+  const leadStatus = document.getElementById('leadStatus');
+  const leadSubmitBtn = document.getElementById('leadSubmitBtn');
+
+  function openLeadModal(){
+    leadOverlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){ document.getElementById('leadName').focus(); }, 50);
+  }
+
+  function closeLeadModal(){
+    leadOverlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  leadOverlay.addEventListener('click', function(e){
+    if(e.target === leadOverlay){ closeLeadModal(); }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && leadOverlay.classList.contains('is-open')){ closeLeadModal(); }
+  });
+
+  function setFieldError(fieldId, hasError){
+    const el = document.getElementById(fieldId);
+    if(hasError){ el.classList.add('has-error'); } else { el.classList.remove('has-error'); }
+  }
+
+  function isValidEmail(value){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  async function sendToBrevo(name, email){
+    if(!BREVO_FORM_ACTION || BREVO_FORM_ACTION.indexOf('PASTE_URL') === 0){
+      console.warn('BREVO_FORM_ACTION belum dikonfigurasi — lead tidak dikirim ke Brevo. Lihat komentar konfigurasi di bagian atas script.');
+      return;
+    }
+    const formData = new FormData();
+    formData.append(BREVO_EMAIL_FIELD_NAME, email);
+    formData.append(BREVO_NAME_FIELD_NAME, name);
+    try{
+      await fetch(BREVO_FORM_ACTION, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
+      });
+    }catch(err){
+      console.error('Gagal mengirim data ke Brevo:', err);
+    }
+  }
+
+  async function handleLeadSubmit(e){
+    e.preventDefault();
+    const nameInput = document.getElementById('leadName');
+    const emailInput = document.getElementById('leadEmail');
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    const nameValid = name.length > 1;
+    const emailValid = isValidEmail(email);
+    setFieldError('fieldName', !nameValid);
+    setFieldError('fieldEmail', !emailValid);
+    if(!nameValid || !emailValid){ return; }
+
+    leadSubmitBtn.disabled = true;
+    leadStatus.classList.add('is-visible');
+
+    await sendToBrevo(name, email);
+
+    const waMessage = WA_MESSAGE_TEMPLATE.replace('{NAMA}', name);
+    const waUrl = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(waMessage);
+    window.open(waUrl, '_blank');
+
+    leadSubmitBtn.disabled = false;
+    leadStatus.classList.remove('is-visible');
+    leadForm.reset();
+    closeLeadModal();
+  }
+</script>
 
 </body>
 </html>
